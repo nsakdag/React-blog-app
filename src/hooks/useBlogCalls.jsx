@@ -86,7 +86,7 @@ const useBlogCalls = () => {
       await axiosWithToken.post(
         `https://39220.fullstack.clarusway.com/blogs/${id}/postLike`
       );
-     
+     getBlogs()
     } catch (error) {
       dispatch(fetchFail());
       toastErrorNotify("calismadi");

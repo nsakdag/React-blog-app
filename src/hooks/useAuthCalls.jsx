@@ -34,6 +34,25 @@ console.log(data.user._id);
       console.log(userInfo);
     }
   };
+  const register = async (userInfo) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axios.post(
+        `${process.env.REACT_APP_BASE_URL}/users/`,
+        userInfo
+      );
+console.log(data.user._id);
+      dispatch(registerSuccess(data));
+      toastSuccessNotify("Login işlemi basarili.");
+      navigate("/");
+      console.log(data);
+    } catch (error) {
+      dispatch(fetchFail());
+      toastErrorNotify("Login işlemi başarisiz oldu.");
+      console.log(error);
+      console.log(userInfo);
+    }
+  };
 
   const logout = async () => {
     dispatch(fetchStart());
@@ -51,7 +70,7 @@ console.log(data.user._id);
     }
   };
 
-  return { login, logout };
+  return { login, logout,register };
 };
 
 export default useAuthCalls;
