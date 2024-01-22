@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 
 const useAxios = () => {
   const { token } = useSelector((state) => state.auth);
+  console.log(token);
  
 
   const axiosWithToken = axios.create({

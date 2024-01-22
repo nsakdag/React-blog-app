@@ -71,7 +71,7 @@ console.log(data);
     };
 
     fetchData();
-  }, [blogId]);
+  }, []);
 
   if (!blogDetails || !blogDetails.data) {
     return <div>Loading...</div>;

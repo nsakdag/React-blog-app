@@ -16,7 +16,7 @@ const MyFormModal = ({  blogDetails   , open , setOpen}) => {
   const navigate = useNavigate();
 
   const { getCategories, putBlog } = useBlogCalls();
-  console.log(blogDetails);
+ 
   const handleClose = () => {
     setOpen(false);
 
@@ -25,7 +25,8 @@ const MyFormModal = ({  blogDetails   , open , setOpen}) => {
     e.preventDefault();
     putBlog(blogDetails.data._id , formData);
     handleClose();
-    window.location.reload()
+  
+    
     
 
   };
@@ -33,7 +34,6 @@ const MyFormModal = ({  blogDetails   , open , setOpen}) => {
 
   useEffect(() => {
     getCategories();
-    
   }, []);
 
   const [status, setStatus] = useState(["Draft", "Published"]);
@@ -49,7 +49,7 @@ const MyFormModal = ({  blogDetails   , open , setOpen}) => {
     isPublished :true
   });
 
-  console.log(blogDetails);
+
 
   const handleChange = (e) => {
     const { name, value } = e.target;

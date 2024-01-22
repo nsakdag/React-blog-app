@@ -111,9 +111,9 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <RouterLink to="register" variant="body2">
+             
                   {"Don't have an account? Sign Up"}
-                </RouterLink>
+               
               </Grid>
             </Grid>
           </Box>

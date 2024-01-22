@@ -42,6 +42,18 @@ const useBlogCalls = () => {
       toastErrorNotify(` bilgileri çekilemedi.`);
     }
   };
+  const getBlogDetails = async (id) => {
+    dispatch(fetchStart());
+    try {
+      const { data } = await axiosPublic(`/blogs/${id}`);
+     console.log(data);
+
+   
+    } catch (error) {
+      dispatch(fetchFail());
+      toastErrorNotify(` bilgileri çekilemedi.`);
+    }
+  };
   const getMyBlog = async (id) => {
     dispatch(fetchStart());
     try {
@@ -89,7 +101,9 @@ const useBlogCalls = () => {
      getBlogs()
     } catch (error) {
       dispatch(fetchFail());
-      toastErrorNotify("calismadi");
+      toastErrorNotify("lütfen login olunuz");
+      getBlogs()
+     
     }
   };
   const putBlog = async (id , formdata) => {
@@ -114,6 +128,7 @@ const useBlogCalls = () => {
     getMyBlog,
     likeBlog,
     putBlog,
+    getBlogDetails,
   };
 };
 
