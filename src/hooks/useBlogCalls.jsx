@@ -16,7 +16,7 @@ const useBlogCalls = () => {
   const { axiosWithToken, axiosPublic } = useAxios();
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { token } = useSelector((state) => state.auth);
+ 
   // console.log(token);
   const getCategories = async () => {
     dispatch(fetchStart());
@@ -31,7 +31,7 @@ const useBlogCalls = () => {
     }
   };
 
-  const getBlogs = async (page = 1) => {
+  const getBlogs = async (page) => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosPublic(`/blogs/?page=${page}&limit=7`);
@@ -91,17 +91,22 @@ const useBlogCalls = () => {
       toastErrorNotify(`silinemedi`);
     }
   };
-  const likeBlog = async (id) => {
+  const likeBlog = async (id ,page) => {
     // dispatch(fetchStart())
     try {
       await axiosWithToken.post(
         `https://39220.fullstack.clarusway.com/blogs/${id}/postLike`
       );
-      getBlogs();
+  
+      
+      getBlogs(page);
+      getBlogById(id)
+      
+      
     } catch (error) {
       dispatch(fetchFail());
       toastErrorNotify("lütfen login olunuz");
-      getBlogs();
+      getBlogs(id);
     }
   };
   const putBlog = async (id, formdata) => {

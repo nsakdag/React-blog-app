@@ -21,7 +21,8 @@ export default function BlogCard({ blog ,page }) {
   const { deleteBlog ,likeBlog } = useBlogCalls();
 
   const { id } = useSelector((state) => state.auth);
- 
+  const { currentPage } = useSelector((state) => state.blog);
+ console.log(currentPage);
   const navigate = useNavigate();
   
 //  console.log(blog)
@@ -37,8 +38,17 @@ export default function BlogCard({ blog ,page }) {
     }
   };
 
-  
+  const handleLike = () => {
+    likeBlog(blog._id ,currentPage)
+    console.log(blog._id);
+    console.log(currentPage);
+    
 
+    
+  };
+
+  const fav  = (blog.likes.includes(id))
+  
   const handleDelete = () => {
     deleteBlog(blog._id ,page);
   };
@@ -111,7 +121,7 @@ export default function BlogCard({ blog ,page }) {
           )}
         </div>
         <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-          <FavoriteIcon sx={btnStyle} onClick={() => likeBlog(blog._id)} />
+          <FavoriteIcon sx={btnStyle} onClick={handleLike} style={fav ? { color: "red" } : { color: "black" }}/>
           {blog.likes.length}
           <CommentIcon sx={btnStyle} onClick={() => {}} />
           {blog.comments.length}

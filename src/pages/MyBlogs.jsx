@@ -18,12 +18,12 @@ import { Grid } from "@mui/material";
 
 const MyBlogs = () => {
   const { id } = useSelector((state) => state.auth);
-  const {myblog:data} = useSelector((state) => state.blog)
+  const {myblog:data , likes ,userId ,blogId} = useSelector((state) => state.blog)
   
 
+  console.log(likes);
 
-
-  const { getMyBlog } = useBlogCalls();
+  const { getMyBlog ,likeBlog } = useBlogCalls();
   
 
   useEffect(() => {
@@ -32,6 +32,7 @@ const MyBlogs = () => {
   }, []);
 
   
+
 
   const navigate = useNavigate();
 
@@ -49,7 +50,7 @@ const MyBlogs = () => {
       return content;
     }
   };
-  console.log(data);
+ 
  
   return ( <div
       style={{
@@ -121,8 +122,7 @@ const MyBlogs = () => {
             </Button>
           </div>
           <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
-            <FavoriteIcon sx={btnStyle} onClick={() => {}} />
-            {item?.likes?.length}
+          
             <CommentIcon sx={btnStyle} onClick={() => {}} />
             {item?.comments?.length}
             <VisibilityIcon sx={btnStyle} onClick={() => {}} />

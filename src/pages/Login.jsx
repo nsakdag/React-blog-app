@@ -110,11 +110,12 @@ export default function SignIn() {
                   Forgot password?
                 </Link>
               </Grid>
-              <Grid item>
-             
-                  {"Don't have an account? Sign Up"}
-               
+              <Grid item xs>
+                <Link href="/register" variant="body2">
+               Don't you have an account? Sign up
+                </Link>
               </Grid>
+              
             </Grid>
           </Box>
         </Box>

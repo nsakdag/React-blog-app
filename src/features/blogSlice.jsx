@@ -8,7 +8,7 @@ const initialState = {
   loading: false,
   error: false,
   totalPages: 1,
-  currentPage: 0,
+  currentPage: '',
   nextPage: 1,
   previousPage: false,
   categoryId: "",

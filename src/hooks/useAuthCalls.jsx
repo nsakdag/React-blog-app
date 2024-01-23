@@ -6,11 +6,18 @@ import {
   fetchStart,
   loginSuccess,
   logoutSuccess,
+  registerSuccess,
 } from "../features/authSlice";
 import { useDispatch } from "react-redux";
 import { useSelector } from "react-redux";
+import useAxios from "./useAxios";
+
+
+
 
 const useAuthCalls = () => {
+const { axiosWithToken, axiosPublic } = useAxios();
+
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { token } = useSelector((state) => state.auth);
@@ -34,7 +41,18 @@ console.log(data.user._id);
       console.log(userInfo);
     }
   };
-
+  const register = async (userInfo) => {
+    dispatch(fetchStart())
+    try {
+    
+      const { data } = await axiosPublic.post("/users/", userInfo)
+      dispatch(registerSuccess(data))
+      navigate("/")
+      console.log("basarili");
+    } catch (error) {
+      dispatch(fetchFail())
+    }
+  }
   const logout = async () => {
     dispatch(fetchStart());
     try {
@@ -51,7 +69,7 @@ console.log(data.user._id);
     }
   };
 
-  return { login, logout };
+  return { login, logout,register };
 };
 
 export default useAuthCalls;

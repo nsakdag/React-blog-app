@@ -10,6 +10,7 @@ import Login from "../pages/Login";
 import BlogDetails from "../pages/BlogDetails";
 import Profile from "../pages/Profile"
 import MyBlogs from "../pages/MyBlogs";
+import Register from "../pages/Register";
 
 
 const AppRouter = () => {
@@ -19,6 +20,7 @@ const AppRouter = () => {
       <Routes>
         <Route path="/" element={<Dashboard />} />
         <Route path="login" element={<Login />} />
+        <Route path="register" element={<Register />} />
         <Route path="" element={<PrivateRouter />}>
           <Route path="newblog" element={<NewBlog />} />
           <Route path="/BlogDetails/:paramId" element={<BlogDetails />} />

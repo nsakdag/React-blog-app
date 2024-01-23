@@ -34,11 +34,11 @@ import MyFormModal from "./MyFormModal";
 function BlogDetails() {
   const { paramId } = useParams();
 
-  const { deleteBlog, getBlogById } = useBlogCalls();
+  const { deleteBlog, getBlogById ,likeBlog } = useBlogCalls();
 
   const [open, setOpen] = useState();
 
-  const { imageUrl, title, content, blogId, userId, updatedAt } = useSelector((state) => state.blog );
+  const { imageUrl, title, content, blogId, userId, updatedAt ,likes , comments , countOfVistors} = useSelector((state) => state.blog );
   const { id } = useSelector((state) => state.auth );
   console.log( blogId, userId);
 
@@ -59,7 +59,12 @@ function BlogDetails() {
   const handleUpdateBlog = () => {
     handleOpen();
   };
-
+  const handleLike = () => {
+    likeBlog(blogId)
+   
+    
+  };
+  const fav = likes.includes(id)
   return (
     <div>
       <MyFormModal
@@ -141,6 +146,14 @@ function BlogDetails() {
             </>
           ) : null}
         </Grid>
+        <div style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+          <FavoriteIcon sx={btnStyle} onClick={handleLike} style={fav ? { color: "red" } : { color: "black" }}/>
+          {likes.length}
+          <CommentIcon sx={btnStyle} onClick={() => {}} />
+          {comments.length}
+          <VisibilityIcon sx={btnStyle} onClick={() => {}} />
+          {countOfVistors}
+        </div>
       </Container>
     </div>
   );
