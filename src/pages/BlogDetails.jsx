@@ -32,53 +32,25 @@ import MyFormModal from "./MyFormModal";
 // import { btnStyle } from "../styles/globalStyles";
 
 function BlogDetails() {
-  const { blogId } = useParams();
-  const [blogDetails, setBlogDetails] = useState({ data: {} });
-  const { id } = useSelector((state) => state.auth);
-  const { deleteBlog } = useBlogCalls();
-  console.log(id);
+  const { paramId } = useParams();
 
-  const [ open ,setOpen] = useState()
-  
+  const { deleteBlog, getBlogById } = useBlogCalls();
 
-  const { data, error, loading, totalPages, currentPage, nextPage } = useSelector((state) => state.blog);
+  const [open, setOpen] = useState();
 
-  const [page, setPage] = useState(currentPage);
+  const { imageUrl, title, content, blogId, userId, updatedAt } = useSelector((state) => state.blog );
+  const { id } = useSelector((state) => state.auth );
+  console.log( blogId, userId);
 
-  const getBlogById = async () => {
-    try {
-      const response = await axios.get(
-        `https://39220.fullstack.clarusway.com/blogs/${blogId}`
-      );
-      console.log(response.data);
-      setBlogDetails(response.data);
-    } catch (error) {
-      console.error("Error fetching blog details by ID:", error);
-      throw error;
-    }
-  };
-console.log(data);
   const navigate = useNavigate();
   const handleDelete = () => {
-    deleteBlog(blogDetails.data._id );
-    navigate("/")
+    deleteBlog(blogId);
+    navigate("/myblogs");
   };
 
   useEffect(() => {
-    const fetchData = async () => {
-      const blogDetails = await getBlogById();
-      // Process and set blog details as needed
-    };
-
-    fetchData();
+    getBlogById(paramId);
   }, []);
-
-  if (!blogDetails || !blogDetails.data) {
-    return <div>Loading...</div>;
-  }
-
-  console.log(blogDetails);
-  // Render blog details using blogDetails
 
   const handleOpen = () => {
     setOpen(true);
@@ -86,21 +58,39 @@ console.log(data);
 
   const handleUpdateBlog = () => {
     handleOpen();
-    
   };
-  console.log(blogDetails);
 
   return (
     <div>
-      <MyFormModal  blogDetails={blogDetails} handleOpen={handleOpen} setOpen={setOpen}  open={open}/>
-      <Container component="main" maxWidth="md" sx={{ marginTop: 4,display: 'flex', flexDirection: 'column', alignItems: 'center'  }}>
+      <MyFormModal
+      blogDetails={{ imageUrl, title, content, blogId, userId, updatedAt }}
+        handleOpen={handleOpen}
+        setOpen={setOpen}
+        open={open}
+      />
+      <Container
+        component="main"
+        maxWidth="md"
+        sx={{
+          marginTop: 4,
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+        }}
+      >
         <img
-          src={`${blogDetails.data.image}`}
+          src={`${imageUrl}`}
           alt="Logo"
           style={{ maxWidth: "100%", marginRight: 16 }}
         />
 
-        <Grid container spacing={2} mt={2} justifyContent="center" alignItems="center">
+        <Grid
+          container
+          spacing={2}
+          mt={2}
+          justifyContent="center"
+          alignItems="center"
+        >
           <Grid item>
             <Avatar sx={{ width: 60, height: 60, backgroundColor: "#ffd700" }}>
               <DoneAll />
@@ -108,29 +98,26 @@ console.log(data);
           </Grid>
           <Grid item>
             <Typography variant="h5"></Typography>
-            <Typography variant="body2">
-              {blogDetails.data.updatedAt}
-            </Typography>
+            <Typography variant="body2">{updatedAt}</Typography>
           </Grid>
         </Grid>
 
         <Box sx={{ marginY: 4 }}>
-          <Typography variant="h4">{blogDetails.data.title}</Typography>
+          <Typography variant="h4">{title}</Typography>
           <Typography variant="body1" sx={{ marginBottom: 2 }}>
-            {blogDetails.data.content}
+            {content}
           </Typography>
         </Box>
 
-
-        <Grid  textAlign={"center"}>
-          {blogDetails.data.userId && blogDetails.data.userId._id === id ? (
+        <Grid textAlign={"center"}>
+          {userId && userId === id ? (
             <>
               <Button
                 onClick={handleUpdateBlog}
                 variant="contained"
                 style={{
                   width: "%40",
-                  height : "2.5rem" ,
+                  height: "2.5rem",
                   backgroundColor: "lightgreen",
                   borderRadius: "7px",
                 }}
@@ -144,7 +131,7 @@ console.log(data);
                   width: "%40",
                   backgroundColor: "red",
                   margin: "5px",
-                  height : "2.5rem" ,
+                  height: "2.5rem",
 
                   borderRadius: "7px",
                 }}

@@ -4,6 +4,7 @@ import {
   getBlogCategorySuccess,
   getBlogSuccess,
   getMyBlogSuccess,
+  setBlogDetails,
 } from "../features/blogSlice";
 import useAxios from "./useAxios";
 import { toastErrorNotify, toastSuccessNotify } from "../helper/ToastNotify";
@@ -46,9 +47,7 @@ const useBlogCalls = () => {
     dispatch(fetchStart());
     try {
       const { data } = await axiosPublic(`/blogs/${id}`);
-     console.log(data);
-
-   
+      console.log(data);
     } catch (error) {
       dispatch(fetchFail());
       toastErrorNotify(` bilgileri çekilemedi.`);
@@ -98,25 +97,37 @@ const useBlogCalls = () => {
       await axiosWithToken.post(
         `https://39220.fullstack.clarusway.com/blogs/${id}/postLike`
       );
-     getBlogs()
+      getBlogs();
     } catch (error) {
       dispatch(fetchFail());
       toastErrorNotify("lütfen login olunuz");
-      getBlogs()
-     
+      getBlogs();
     }
   };
-  const putBlog = async (id , formdata) => {
+  const putBlog = async (id, formdata) => {
     // dispatch(fetchStart())
     try {
       await axiosWithToken.put(
-        `https://39220.fullstack.clarusway.com/blogs/${id}` ,formdata
-      ) ;
-      
-      navigate(`/BlogDetails/${id}`)
+        `https://39220.fullstack.clarusway.com/blogs/${id}`,
+        formdata
+      );
+        getBlogById(id)
+      navigate(`/BlogDetails/${id}`);
     } catch (error) {
       dispatch(fetchFail());
       toastErrorNotify("calismadi");
+    }
+  };
+  const getBlogById = async (id) => {
+    try {
+      const response = await axios.get(
+        `https://39220.fullstack.clarusway.com/blogs/${id}`
+      );
+      console.log(response.data.data);
+      dispatch(setBlogDetails(response.data.data));
+    } catch (error) {
+      console.error("Error fetching blog details by ID:", error);
+      throw error;
     }
   };
 
@@ -129,6 +140,7 @@ const useBlogCalls = () => {
     likeBlog,
     putBlog,
     getBlogDetails,
+    getBlogById,
   };
 };
 

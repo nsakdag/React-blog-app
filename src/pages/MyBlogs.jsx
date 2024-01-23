@@ -18,7 +18,7 @@ import { Grid } from "@mui/material";
 
 const MyBlogs = () => {
   const { id } = useSelector((state) => state.auth);
-  const {data} = useSelector((state) => state.blog)
+  const {myblog:data} = useSelector((state) => state.blog)
   
 
 
@@ -28,6 +28,7 @@ const MyBlogs = () => {
 
   useEffect(() => {
    getMyBlog(id)
+   console.log("clicked")
   }, []);
 
   

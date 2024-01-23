@@ -1,34 +1,34 @@
-import React, { useEffect, useState } from 'react';
-import Modal from '@mui/material/Modal';
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
-import { useSelector } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
-import useBlogCalls from '../hooks/useBlogCalls';
-import { modalStyle } from '../styles/globalStyles';
-import { FormControl, InputLabel, MenuItem, Select, TextareaAutosize } from '@mui/material';
+import React, { useEffect, useState } from "react";
+import Modal from "@mui/material/Modal";
+import Box from "@mui/material/Box";
+import Typography from "@mui/material/Typography";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
+import { useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import useBlogCalls from "../hooks/useBlogCalls";
+import { modalStyle } from "../styles/globalStyles";
+import {
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextareaAutosize,
+} from "@mui/material";
 
-
-const MyFormModal = ({  blogDetails   , open , setOpen}) => {
-
+const MyFormModal = ({ blogDetails, open, setOpen }) => {
   const navigate = useNavigate();
 
   const { getCategories, putBlog } = useBlogCalls();
- 
+
   const handleClose = () => {
     setOpen(false);
-
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    putBlog(blogDetails.data._id , formData);
+    putBlog(formData._id, formData);
     handleClose();
-  
-    
-    
-
+    console.log(formData)
   };
   const { categories } = useSelector((state) => state.blog);
 
@@ -39,17 +39,28 @@ const MyFormModal = ({  blogDetails   , open , setOpen}) => {
   const [status, setStatus] = useState(["Draft", "Published"]);
 
   const [formData, setFormData] = useState({
-    title: blogDetails.data.title,
-    image: blogDetails.data.image,
+    title: blogDetails?.title,
+    image: blogDetails?.imageUrl,
     categoryId: "",
     isPublished: true,
     content: "",
-    _id : blogDetails._id,
-    userId : blogDetails.userId,
-    isPublished :true
+    _id: blogDetails?.blogId,
+    userId: blogDetails?.userId,
+    isPublished: true,
   });
-
-
+console.log(formData);
+  useEffect(() => {
+    setFormData({
+      title: blogDetails?.title,
+      image: blogDetails?.image,
+      categoryId: "",
+      isPublished: true,
+      content: "",
+      _id: blogDetails?.blogId,
+      userId: blogDetails?.userId,
+      isPublished: true,
+    });
+  }, [blogDetails]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -58,18 +69,14 @@ const MyFormModal = ({  blogDetails   , open , setOpen}) => {
       [name]: value,
     }));
   };
-  
 
   return (
-    <div>
-      
-
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
+    <Modal
+      open={open}
+      onClose={handleClose}
+      aria-labelledby="modal-modal-title"
+      aria-describedby="modal-modal-description"
+    >
       <Box sx={modalStyle}>
         <Box
           sx={{ display: "flex", flexDirection: "column", gap: 2 }}
@@ -77,12 +84,11 @@ const MyFormModal = ({  blogDetails   , open , setOpen}) => {
           onSubmit={handleSubmit}
         >
           <TextField
-       
             label="Title"
             name="title"
             type="text"
             variant="outlined"
-            value={formData.title}
+            value={formData?.title}
             onChange={handleChange}
             required
           />
@@ -91,7 +97,7 @@ const MyFormModal = ({  blogDetails   , open , setOpen}) => {
             name="image"
             type="text"
             variant="outlined"
-            value={formData.image}
+            value={formData?.image}
             onChange={handleChange}
             required
           />
@@ -101,7 +107,7 @@ const MyFormModal = ({  blogDetails   , open , setOpen}) => {
               labelId="category"
               id="category"
               name="categoryId"
-              value={formData.categoryId}
+              value={formData?.categoryId}
               label="Category"
               onChange={handleChange}
               required
@@ -119,7 +125,7 @@ const MyFormModal = ({  blogDetails   , open , setOpen}) => {
             <Select
               labelId="status"
               name="status"
-              value={formData.status}
+              value={formData?.status}
               label="Status"
               onChange={handleChange}
             >
@@ -135,7 +141,7 @@ const MyFormModal = ({  blogDetails   , open , setOpen}) => {
             minRows={6}
             name="content"
             placeholder="Enter your text here..."
-            value={formData.content}
+            value={formData?.content}
             onChange={handleChange}
             style={{ width: "100%" }}
             required
@@ -145,8 +151,7 @@ const MyFormModal = ({  blogDetails   , open , setOpen}) => {
           </Button>
         </Box>
       </Box>
-      </Modal>
-    </div>
+    </Modal>
   );
 };
 
