@@ -44,7 +44,7 @@ export default function NewBlog() {
     e.preventDefault();
 
     postBlog(formData);
-    navigate("/myblogs");
+    navigate("/");
   };
 
   return (
