@@ -6,7 +6,7 @@ https://ns-blogapp.netlify.app/
 
 ### Following topics are  covered;
 
-- HTML, CSS, JS, ReactJS, Redux, MUI
+- HTML, CSS, JS, ReactJS, Redux-toolkit, MUI
 
 ### IN THIS PROJECT :
 
